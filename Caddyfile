@@ -1,3 +1,7 @@
 he97.fyrvest.com {
     reverse_proxy api:8000
 }
+
+fyralgo.fyrvest.com {
+    reverse_proxy web:3000
+}
