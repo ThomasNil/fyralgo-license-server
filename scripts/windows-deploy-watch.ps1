@@ -31,6 +31,13 @@ try {
     git pull --ff-only origin main 2>&1 | ForEach-Object { Log $_ }
     Log "git pull ok, running docker compose up -d --build"
     docker compose up -d --build 2>&1 | ForEach-Object { Log $_ }
+
+    # Caddyfile is volume-mounted, not baked into an image, so `up -d --build`
+    # alone never picks up changes to it. Reload explicitly every deploy
+    # (cheap no-op if unchanged, zero-downtime if it did change).
+    Log "Reloading Caddy config"
+    docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile 2>&1 | ForEach-Object { Log $_ }
+
     Log "Deploy finished OK"
 } catch {
     Log "DEPLOY FAILED: $_"

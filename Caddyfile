@@ -1,7 +1,11 @@
-he97.fyrvest.com {
+he97.fyrvest.com, license.fyralgo.com {
     reverse_proxy api:8000
 }
 
-fyralgo.fyrvest.com {
+fyralgo.com, www.fyralgo.com {
     reverse_proxy web:3000
+}
+
+fyralgo.fyrvest.com {
+    redir https://fyralgo.com{uri} permanent
 }
