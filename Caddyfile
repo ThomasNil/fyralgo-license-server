@@ -1,0 +1,3 @@
+he97.fyrvest.com {
+    reverse_proxy api:8000
+}
