@@ -1,6 +1,8 @@
 services:
   api:
     build: .
+    env_file:
+      - .env
     volumes:
       - ./data:/app/data  # Sparar databasen på din Windows-disk i en mapp som heter "data"
 

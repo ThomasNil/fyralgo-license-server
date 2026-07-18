@@ -104,9 +104,11 @@ def verify_license(request: Request, key: str, account: int, broker: str = "", i
 
 # --- ADMIN FUNKTIONER ---
 
+ADMIN_SECRET = os.environ["ADMIN_SECRET"]
+
 @app.get("/admin/add_key")
 def add_key(secret: str, new_key: str = None, max_act: int = 2):
-    if secret != "DittHemligaLösenord123": 
+    if secret != ADMIN_SECRET:
         return {"error": "Unauthorized"}
         
     # Om du inte skickade med en 'new_key' i URL:en, slumpa fram en!
@@ -126,7 +128,7 @@ def add_key(secret: str, new_key: str = None, max_act: int = 2):
 
 @app.get("/admin/whitelist_add")
 def whitelist_add(secret: str, account: int):
-    if secret != "DittHemligaLösenord123": return {"error": "Unauthorized"}
+    if secret != ADMIN_SECRET: return {"error": "Unauthorized"}
     conn = sqlite3.connect("data/licenses.db")
     c = conn.cursor()
     try:
