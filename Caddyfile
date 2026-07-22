@@ -2,6 +2,12 @@ he97.fyrvest.com, license.fyralgo.com {
     reverse_proxy api:8000
 }
 
+# fyralgo-ingest (separate repo/compose project, joins this box's shared `edge` network).
+# api.fyralgo.com is a CNAME to he97.fyrvest.com -- see fyralgo-ingest/docs/DESIGN.md.
+api.fyralgo.com {
+    reverse_proxy fyralgo-ingest:8080
+}
+
 fyralgo.com, www.fyralgo.com {
     reverse_proxy web:3000
 }
