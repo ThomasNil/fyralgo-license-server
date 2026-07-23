@@ -8,6 +8,12 @@ api.fyralgo.com {
     reverse_proxy fyralgo-ingest:8080
 }
 
+# truefill-web (separate repo/compose project, joins this box's shared `edge` network).
+# Temporary hostname until truefill.io is registered -- add it to this same block when it is.
+truefill.fyralgo.com {
+    reverse_proxy truefill-web:3000
+}
+
 fyralgo.com, www.fyralgo.com {
     reverse_proxy web:3000
 }
