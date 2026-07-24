@@ -17,6 +17,9 @@ services:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
       - caddy_config:/config
+      # regtech frameworks mirror (EBA reference data), served on reporting.fyrvest.com.
+      # Read-only: the mirror must never be able to modify its own contents.
+      - C:/srv/frameworks:/srv/mirror:ro
     networks:
       - default
       - edge
