@@ -21,6 +21,17 @@ fyralgo.com, www.fyralgo.com {
 fyralgo.fyrvest.com {
     redir https://fyralgo.com{uri} permanent
 }
+
+# sigill (regtech-reporting/site, separate repo/compose project, joins this box's
+# shared `edge` network). sigill.report is also registered but redirects here —
+# sigill.tech is canonical (site: in site/astro.config.mjs).
+sigill.tech, www.sigill.tech {
+    reverse_proxy sigill-site:4321
+}
+sigill.report {
+    redir https://sigill.tech{uri} permanent
+}
+
 # regtech-reporting mirror: EBA reference data (DPM database, taxonomy packages).
 # Static files at C:\srv\frameworks on this box, volume-mounted read-only into this container
 # (see docker-compose.yml). Served under /frameworks/ so reporting.fyrvest.com stays
