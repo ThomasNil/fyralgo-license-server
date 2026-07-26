@@ -60,6 +60,18 @@ auth.sigill.tech {
     reverse_proxy portal-keycloak:8080
 }
 
+# chatwoot-fyrvest (separate repo/compose project, joins this box's shared `edge`
+# network). Self-hosted support desk for Fyrvest AB's businesses -- Sigill first,
+# further accounts later in the same installation, which is why the hostname is
+# the only sigill.tech name here that is not the product itself.
+#
+# FRONTEND_URL in that repo's .env must match this hostname exactly. Chatwoot
+# builds asset URLs, notification links and the widget script tag from it, so a
+# mismatch produces a page that loads but is subtly broken rather than an error.
+support.sigill.tech {
+    reverse_proxy chatwoot:3000
+}
+
 # regtech-reporting mirror: EBA reference data (DPM database, taxonomy packages).
 # Static files at C:\srv\frameworks on this box, volume-mounted read-only into this container
 # (see docker-compose.yml). Served under /frameworks/ so reporting.fyrvest.com stays
