@@ -32,6 +32,34 @@ sigill.report {
     redir https://sigill.tech{uri} permanent
 }
 
+# The Sigill portal (regtech-reporting/deploy/docker-compose.portal.yml, same
+# `edge` network). The SPA calls /v1 RELATIVELY -- there is no VITE_ base-url
+# variable, vite only proxies in dev (ADR 0004). So the same origin must serve
+# both the static files and the API, and that split happens here.
+#
+# `handle` and not `handle_path`: the API expects the /v1 prefix, and
+# handle_path would strip it. Order matters -- the /v1 matcher must come first.
+portal.sigill.tech {
+    handle /v1/* {
+        reverse_proxy portal-api:8000
+    }
+    handle {
+        reverse_proxy portal-web:8080
+    }
+}
+
+# Keycloak. Its own hostname because the portal is static files with no server
+# behind them; Keycloak is a separate service. The URL must be reachable FROM
+# THE BROWSER and match the token's `iss` claim exactly, which is why
+# KC_HOSTNAME is set to this value in the compose file.
+#
+# Keycloak runs with KC_PROXY_HEADERS=xforwarded and trusts X-Forwarded-Proto
+# from here; without it Keycloak builds http:// redirects and the browser
+# blocks them as mixed content.
+auth.sigill.tech {
+    reverse_proxy portal-keycloak:8080
+}
+
 # regtech-reporting mirror: EBA reference data (DPM database, taxonomy packages).
 # Static files at C:\srv\frameworks on this box, volume-mounted read-only into this container
 # (see docker-compose.yml). Served under /frameworks/ so reporting.fyrvest.com stays
