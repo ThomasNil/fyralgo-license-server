@@ -85,3 +85,8 @@ reporting.fyrvest.com {
         header Cache-Control "public, max-age=31536000, immutable"
     }
 }
+
+#SPELET LAVAAGENTEN - FRANS
+lava.fyrvest.com {
+    reverse_proxy lavaagenten:80
+}
