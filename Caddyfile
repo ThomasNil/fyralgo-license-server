@@ -72,6 +72,21 @@ support.sigill.tech {
     reverse_proxy chatwoot:3000
 }
 
+# Sigill's help centre -- the same Chatwoot container as support.sigill.tech
+# above. Chatwoot picks which portal to serve by matching the Host header against
+# the portal's `custom_domain`, so this needs no path prefix and no separate
+# service. The portal (slug `sigill`) carries custom_domain help.sigill.tech; if
+# that field is ever cleared, this hostname serves Chatwoot's agent console
+# instead of the articles, which reads like a routing fault but is a data setting.
+#
+# A separate hostname rather than support.sigill.tech/hc/sigill on purpose: the
+# help centre is customer-facing, support.sigill.tech is the agent console, and
+# they should not share an address. DNS needs nothing -- *.sigill.tech is a
+# wildcard onto this box -- so Caddy fetching a certificate is the entire setup.
+help.sigill.tech {
+    reverse_proxy chatwoot:3000
+}
+
 # regtech-reporting mirror: EBA reference data (DPM database, taxonomy packages).
 # Static files at C:\srv\frameworks on this box, volume-mounted read-only into this container
 # (see docker-compose.yml). Served under /frameworks/ so reporting.fyrvest.com stays
