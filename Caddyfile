@@ -91,7 +91,12 @@ lava.fyrvest.com {
     reverse_proxy lavaagenten:80
 }
 
-# CLAUDE CLI PROXY
+# CLAUDE CLI PROXY (LAN only)
 http://192.168.1.134 {
-    reverse_proxy claude-max-api-proxy:3456
+    @local remote_ip 192.168.1.0/24
+    handle @local {
+        reverse_proxy claude-max-api-proxy:3456
+    }
+
+    respond 403
 }
