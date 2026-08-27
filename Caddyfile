@@ -106,6 +106,13 @@ lava.fyrvest.com {
     reverse_proxy lavaagenten:80
 }
 
+# mcp-selfhosted-web (separate repo/compose project, joins this box's shared `edge`
+# network). Self-hosted web_search/fetch MCP tool for the DSH agent, backed by an
+# internal-only SearXNG instance (never on `edge` itself, only mcp-web talks to it).
+mcp-web.sigill.tech {
+    reverse_proxy mcp-web:8787
+}
+
 # CLAUDE CLI PROXY
 http://192.168.1.134 {
     reverse_proxy claude-max-api-proxy:3456
