@@ -112,3 +112,8 @@ lava.fyrvest.com {
 mcp-web.sigill.tech {
     reverse_proxy mcp-web:8787
 }
+
+# CLAUDE CLI PROXY
+http://192.168.1.134 {
+    reverse_proxy claude-max-api-proxy:3456
+}
