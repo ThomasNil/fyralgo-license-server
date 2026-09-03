@@ -114,6 +114,8 @@ mcp-web.sigill.tech {
 }
 
 # CLAUDE CLI PROXY
-http://192.168.1.134 {
+# 192.168.1.134 = LAN, 100.90.122.87 = this box's Tailscale IP (win-7l9tmhj2shv),
+# so it's reachable both at home and away without a subnet router.
+http://192.168.1.134, http://100.90.122.87 {
     reverse_proxy claude-max-api-proxy:3456
 }
