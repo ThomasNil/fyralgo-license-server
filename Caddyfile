@@ -113,9 +113,27 @@ mcp-web.sigill.tech {
     reverse_proxy mcp-web:8787
 }
 
+# n8n (compose /srv/n8n, service n8n, joins shared edge network).
+# No basic_auth here -- n8n has its own login and /rest/oauth2-credential/callback
+# must stay publicly reachable for Google OAuth.
+n8n.sigill.tech {
+    reverse_proxy n8n:5678
+}
+
 # CLAUDE CLI PROXY
 # 192.168.1.134 = LAN, 100.90.122.87 = this box's Tailscale IP (win-7l9tmhj2shv),
 # so it's reachable both at home and away without a subnet router.
 http://192.168.1.134, http://100.90.122.87 {
     reverse_proxy claude-max-api-proxy:3456
+}
+
+# Rapporthubben — internt rapportarkiv, ENDAST via Tailscale.
+# Tailnet-only upprätthålls av port-publiceringen "100.122.36.47:8080:8080" i
+# docker-compose.yml (host-sidan bunden till tailscale0; ingen 0.0.0.0-bindning).
+# Innehåll: /srv/reports-hub (read-only i containern). news/ecosystem synkas dit
+# från n8n-volymen av /srv/reports-hub/generate-index.sh (cron var 15:e min);
+# etf/ fylls av ETF-agenten. Övriga vhosts är orörda.
+:8080 {
+	root * /srv/reports-hub
+	file_server browse
 }
